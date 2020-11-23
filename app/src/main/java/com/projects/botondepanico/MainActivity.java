@@ -1,13 +1,20 @@
 package com.projects.botondepanico;
 
+import android.annotation.SuppressLint;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,6 +27,15 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private MapsFragment maps;
+
+    private SensorManager sensorManager;
+    private Sensor sensor;
+    private SensorEventListener sensorEventListener;
+
+
+    private AlertFragment alertFragment;
+    FragmentTransaction transaction;
+    int eventCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +63,11 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        /**Add maps to FrameLayout**/
+        mapsInitialize();/**Add maps to FrameLayout**/
+        sensorInitialize();
+        alertFragment = new AlertFragment();
+    }
+    private void mapsInitialize(){
         maps = new MapsFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, maps).commit();
     }
@@ -64,5 +84,67 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+
+    private void sensorInitialize() {
+        sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+        transaction = getSupportFragmentManager().beginTransaction();
+
+        if(sensor==null){
+            finish();
+        }
+
+        sensorEventListener = new SensorEventListener() {
+            @SuppressLint("ResourceType")
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+                float x = sensorEvent.values[0];
+                float y = sensorEvent.values[1];
+                float z = sensorEvent.values[2];
+
+
+                if(((x>=10 || x<=-10) || (y>=10 || y<=-10) || (z>=10 || z<=-10)) && eventCount==0){
+                    eventCount++;
+                }else if((x<=1 || y<=1 || z<=1) && eventCount==1){
+                    eventCount++;
+                }
+
+                if(eventCount==2){
+                    //magic
+                    transaction.replace(R.id.nav_host_fragment, alertFragment).commit();
+                    transaction.addToBackStack(null);
+                    stop();
+                    eventCount=0;
+                }
+
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+            }
+        };
+        start();
+
+    }
+
+    private void start(){
+        sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+    private void stop(){/**Detene sensor**/
+        sensorManager.unregisterListener(sensorEventListener);
+    }
+
+    @Override
+    protected void onPause() {
+        stop();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        start();
+        super.onResume();
     }
 }
