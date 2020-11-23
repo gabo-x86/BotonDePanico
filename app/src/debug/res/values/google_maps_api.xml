@@ -1,0 +1,24 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=8E:C0:79:5E:37:7A:01:EF:1A:EE:82:B3:8F:0F:BA:B8:68:5E:20:59%3Bcom.projects.botondepanico
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    com.projects.botondepanico
+
+    SHA-1 certificate fingerprint:
+    8E:C0:79:5E:37:7A:01:EF:1A:EE:82:B3:8F:0F:BA:B8:68:5E:20:59
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCVSaJCzP0Yk3VG_V7IvQrWPs-S3xnoF50</string>
+</resources>
