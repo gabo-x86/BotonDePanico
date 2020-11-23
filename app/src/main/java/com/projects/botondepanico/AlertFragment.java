@@ -72,7 +72,7 @@ public class AlertFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        textView = (TextView) textView.findViewById(R.id.counter);
+        /*textView = (TextView) textView.findViewById(R.id.counter);
         CountDownTimer countDownTimer = new CountDownTimer(10000, 1000) {
             public void onTick(long millisUntilFinished) {
                 textView.setText(String.format(Locale.getDefault(), "%d sec.", millisUntilFinished / 1000L));
@@ -80,6 +80,6 @@ public class AlertFragment extends Fragment {
             public void onFinish() {
                 textView.setText("Done.");
             }
-        }.start();
+        }.start();*/
     }
 }
