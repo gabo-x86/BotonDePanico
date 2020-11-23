@@ -26,7 +26,6 @@ import androidx.appcompat.widget.Toolbar;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private MapsFragment maps;
 
     private SensorManager sensorManager;
     private Sensor sensor;
@@ -63,13 +62,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        mapsInitialize();/**Add maps to FrameLayout**/
         sensorInitialize();
         alertFragment = new AlertFragment();
-    }
-    private void mapsInitialize(){
-        maps = new MapsFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, maps).commit();
     }
 
     @Override
@@ -112,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if(eventCount==2){
-                    //magic
                     transaction.replace(R.id.nav_host_fragment, alertFragment).commit();
                     transaction.addToBackStack(null);
                     stop();
@@ -146,5 +139,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         start();
         super.onResume();
+
     }
+
+
 }

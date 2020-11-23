@@ -30,7 +30,7 @@ public class MapsFragment extends Fragment {
 
     private GoogleMap mMap;
 
-    private OnMapReadyCallback callback = new OnMapReadyCallback() {
+    public OnMapReadyCallback callback = new OnMapReadyCallback() {
         /**
          * Maneja el mapa una vez esté disponible.
          * Esta llamada se desencadenará cuando el mapa esté listo para usarse.

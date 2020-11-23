@@ -22,4 +22,15 @@
         android:name="com.projects.botondepanico.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/alertFragment"
+        android:name="com.projects.botondepanico.AlertFragment"
+        android:label="fragment_alert"
+        tools:layout="@layout/fragment_alert" >
+        <action
+            android:id="@+id/action_alertFragment_to_nav_home"
+            app:destination="@id/nav_home"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_close_exit" />
+    </fragment>
 </navigation>

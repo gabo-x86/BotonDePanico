@@ -1,13 +1,19 @@
 package com.projects.botondepanico;
 
+import android.app.Application;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -83,4 +89,31 @@ public class AlertFragment extends Fragment {
             }
         }.start();*/
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Button sos = view.findViewById(R.id.btnSOS);
+        Button cancel = view.findViewById(R.id.btnNo);
+
+        final NavController navController = Navigation.findNavController(view);
+
+        /**sos.setOnClickListener(new View.OnClickListener() {EVENTO DE SOS
+            @Override
+            public void onClick(View view) {
+                navController.navigate(R.id.inicioFragment);
+            }
+        });**/
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController.popBackStack();
+                navController.navigate(R.id.nav_home);
+            }
+        });
+
+    }
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.projects.botondepanico.ui.home;
 
+import android.app.Application;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +13,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.projects.botondepanico.MapsFragment;
 import com.projects.botondepanico.R;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    public MapsFragment maps;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -32,4 +36,18 @@ public class HomeFragment extends Fragment {
         });
         return root;
     }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        maps = new MapsFragment();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, maps).commit();
+    }
+
+
 }
