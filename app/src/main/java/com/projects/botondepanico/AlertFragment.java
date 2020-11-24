@@ -1,7 +1,5 @@
 package com.projects.botondepanico;
 
-import android.app.Activity;
-import android.app.Application;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
