@@ -26,14 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    private SensorManager sensorManager;
+    /*private SensorManager sensorManager;
     private Sensor sensor;
-    private SensorEventListener sensorEventListener;
+    private SensorEventListener sensorEventListener;*/
 
 
-    private AlertFragment alertFragment;
+    /*private AlertFragment alertFragment;
     FragmentTransaction transaction;
-    int eventCount = 0;
+    int eventCount = 0;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        sensorInitialize();
-        alertFragment = new AlertFragment();
+        //sensorInitialize();
+        //alertFragment = new AlertFragment();
     }
 
     @Override
@@ -80,63 +80,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void sensorInitialize() {
-        sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-        transaction = getSupportFragmentManager().beginTransaction();
-
-        if(sensor==null){
-            finish();
-        }
-
-        sensorEventListener = new SensorEventListener() {
-            @SuppressLint("ResourceType")
-            @Override
-            public void onSensorChanged(SensorEvent sensorEvent) {
-                float x = sensorEvent.values[0];
-                float y = sensorEvent.values[1];
-                float z = sensorEvent.values[2];
 
 
-                if(((x>=10 || x<=-10) || (y>=10 || y<=-10) || (z>=10 || z<=-10)) && eventCount==0){
-                    eventCount++;
-                }else if((x<=1 || y<=1 || z<=1) && eventCount==1){
-                    eventCount++;
-                }
-
-                if(eventCount==2){
-                    transaction.replace(R.id.nav_host_fragment, alertFragment).commit();
-                    transaction.addToBackStack(null);
-                    stop();
-                    eventCount=0;
-                }
-
-            }
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int i) {
-            }
-        };
-        start();
-
-    }
-
-    private void start(){
-        sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
-    }
-    private void stop(){/**Detene sensor**/
-        sensorManager.unregisterListener(sensorEventListener);
-    }
 
     @Override
     protected void onPause() {
-        stop();
+        //stop();
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        start();
+        //start();
         super.onResume();
 
     }
