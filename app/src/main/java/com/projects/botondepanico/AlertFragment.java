@@ -1,5 +1,6 @@
 package com.projects.botondepanico;
 
+import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
@@ -33,7 +34,7 @@ public class AlertFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private TextView textView;
+
 
     public AlertFragment() {
         // Required empty public constructor
@@ -79,15 +80,6 @@ public class AlertFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        /*textView = (TextView) textView.findViewById(R.id.counter);
-        CountDownTimer countDownTimer = new CountDownTimer(10000, 1000) {
-            public void onTick(long millisUntilFinished) {
-                textView.setText(String.format(Locale.getDefault(), "%d sec.", millisUntilFinished / 1000L));
-            }
-            public void onFinish() {
-                textView.setText("Done.");
-            }
-        }.start();*/
     }
 
     @Override
@@ -97,6 +89,9 @@ public class AlertFragment extends Fragment {
         Button cancel = view.findViewById(R.id.btnNo);
 
         final NavController navController = Navigation.findNavController(view);
+
+        counterInitialize(view, (short)10, navController);
+
 
         /**sos.setOnClickListener(new View.OnClickListener() {EVENTO DE SOS
             @Override
@@ -114,6 +109,18 @@ public class AlertFragment extends Fragment {
 
     }
 
+    private void counterInitialize(View view, short time, final NavController navController) {
+        final TextView textView = (TextView) view.findViewById(R.id.counter);
+        new CountDownTimer(time*1000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                long segPend = millisUntilFinished / 1000;
+                textView.setText((int) segPend + "");
+            }
 
+            public void onFinish() {
+                /**EVENTO DE SOS**/
+            }
+        }.start();
+    }
 
 }
