@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "964866104797",
-    "firebase_url": "https://botondepanico-975b6.firebaseio.com",
-    "project_id": "botondepanico-975b6",
-    "storage_bucket": "botondepanico-975b6.appspot.com"
+    "project_number": "427618196349",
+    "firebase_url": "https://botondepanico-d4e7c.firebaseio.com",
+    "project_id": "botondepanico-d4e7c",
+    "storage_bucket": "botondepanico-d4e7c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:964866104797:android:93f56b3723d6a381546a34",
+        "mobilesdk_app_id": "1:427618196349:android:9c3d72fc39f870c7920a14",
         "android_client_info": {
           "package_name": "com.projects.botondepanico"
         }
       },
       "oauth_client": [
         {
-          "client_id": "964866104797-c26dhjm4bcn0fdlj48ek8thgvi1avgmo.apps.googleusercontent.com",
+          "client_id": "427618196349-9rs9b7brgtaauimaquugruht1qnb0brd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.projects.botondepanico",
@@ -23,20 +23,20 @@
           }
         },
         {
-          "client_id": "964866104797-ptlauv8oiggiptfbubpv9gtms0srj3k4.apps.googleusercontent.com",
+          "client_id": "427618196349-c9tjjcqigltppo54erebuv1v51u0ctip.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBmaoyb8qYApg12qZtMJtGpDtrx1aR9IWg"
+          "current_key": "AIzaSyAswph6J9DI_DG_XvIUAGmvfUc94w_G_6o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "964866104797-ptlauv8oiggiptfbubpv9gtms0srj3k4.apps.googleusercontent.com",
+              "client_id": "427618196349-c9tjjcqigltppo54erebuv1v51u0ctip.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

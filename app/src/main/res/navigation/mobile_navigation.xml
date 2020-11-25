@@ -35,11 +35,19 @@
     </fragment>
     <fragment
         android:id="@+id/logInFragment"
-        android:name="com.projects.botondepanico.auth.LogInFragment"
-        android:label="fragment_log_in"
-        tools:layout="@layout/fragment_log_in" >
+        android:name="com.projects.botondepanico.ui.auth.LogInFragment"
+        android:label="@string/tool_bar_login"
+        tools:layout="@layout/fragment_log_in">
         <action
             android:id="@+id/action_logInFragment_to_nav_home"
             app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_logInFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.projects.botondepanico.ui.auth.RegisterFragment"
+        android:label="@string/tool_bar_register"
+        tools:layout="@layout/fragment_register" />
 </navigation>

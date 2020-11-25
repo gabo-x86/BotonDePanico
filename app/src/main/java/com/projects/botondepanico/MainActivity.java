@@ -1,19 +1,13 @@
 package com.projects.botondepanico;
 
-import android.annotation.SuppressLint;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
+import android.view.View;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -25,12 +19,12 @@ import androidx.appcompat.widget.Toolbar;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //FloatingActionButton fab = findViewById(R.id.fab);
         /*fab.setOnClickListener(new View.OnClickListener() {
@@ -53,11 +47,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        toolbar.setNavigationIcon(null);/**Oculta botón Navigation drawer**/
-        getSupportActionBar().setTitle("Botón de Pánico");
-    }
-    public Toolbar getToolbar() {
-        return toolbar;
+
+        //toolbar.setNavigationIcon(null);/**Oculta botón Navigation drawer**/
     }
 
     @Override
@@ -74,21 +65,12 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-
-
-
     @Override
-    protected void onPause() {
-        //stop();
-        super.onPause();
+    protected void onStart() {
+        super.onStart();
+
     }
 
-    @Override
-    protected void onResume() {
-        //start();
-        super.onResume();
-
-    }
 
 
 }

@@ -1,26 +1,28 @@
 package com.projects.botondepanico;
 
-//import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Usuario {
-    /*private FirebaseAuth mAuth;
-    private String nickName;
-    private String mail;
-    private String pass;
-    private double lat;
-    private double lon;
+    private static FirebaseAuth mAuth;
+    private static String nickName;
+    private static String mail;
+    private static String pass;
+    private static double lat;
+    private static double lon;
 
-    public Usuario(String nickName, String mail, String pass, double lat, double lon) {
-        this.mAuth = mAuth = FirebaseAuth.getInstance();;
+    public Usuario() {/**Iniciar BD**/
+        this.mAuth = mAuth = FirebaseAuth.getInstance();
+    }
+
+    public Usuario(String nickName, String mail, String pass, double lat, double lon) {/**Crea objeto**/
         this.nickName = nickName;
         this.mail = mail;
         this.pass = pass;
         this.lat = lat;
         this.lon = lon;
-    }
-
-    public FirebaseAuth getmAuth() {
-        return mAuth;
     }
 
     public String getNickName() {
@@ -29,10 +31,6 @@ public class Usuario {
 
     public String getMail() {
         return mail;
-    }
-
-    public String getPass() {
-        return pass;
     }
 
     public double getLat() {
@@ -44,7 +42,7 @@ public class Usuario {
     }
 
     /**setters**/
-    /*public void setLat(double lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
@@ -53,7 +51,16 @@ public class Usuario {
     }
 
     /**functional methods**/
-    /*public void registrar(String email, String password){
+    public void autoLogIn(){/**FALTA!!!*/
+        //FirebaseUser currentUser = mAuth.getCurrentUser();
+        //updateUI(currentUser);
+    }
+    public void createUser( ){
+
+
+    }
+    /*
+    public void userRegister(String email, String password){
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -71,7 +78,6 @@ public class Usuario {
                             updateUI(null);
                         }
 
-                        // ...
                     }
                 });
 
