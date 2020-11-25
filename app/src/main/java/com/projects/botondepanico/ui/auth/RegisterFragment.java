@@ -1,18 +1,22 @@
 package com.projects.botondepanico.ui.auth;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,25 +26,19 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.projects.botondepanico.R;
+import com.projects.botondepanico.Usuario;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 public class RegisterFragment extends Fragment {
-    private static FirebaseAuth mAuth;
-    private static DatabaseReference mDatabase;
 
     private EditText email;
     private EditText pass;
     private EditText passConfirmation;
     private Button btnRegister;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();/**Incializa instancia de autentificación de la BD*/
-        mDatabase = FirebaseDatabase.getInstance().getReference();/**Inicializa instancia de la BD*/
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,7 +59,8 @@ public class RegisterFragment extends Fragment {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //navController.popBackStack();
+                emptyStack();
+                hideVirtualKeyboard();
                 registerControl(navController);
             }
         });
@@ -71,16 +70,18 @@ public class RegisterFragment extends Fragment {
             if(pass.getText().toString().length() >= 6){
                 userRegister(navController);
             }else{
-                System.out.println("PASSWORD DEBE TENER AL MENOS 6 CARACTERES");
+                Toast.makeText(getActivity(), "Contraseña con más de 6 caracteres", Toast.LENGTH_SHORT ).show();
             }
         }else{
-            System.out.println("LLENE TODOS LOS CAMPOS");
+            Toast.makeText(getActivity(), "Llene todos los campos", Toast.LENGTH_SHORT).show();
 
         }
     }
 
+
+
     private void userRegister(final NavController navController){
-        mAuth.createUserWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        Usuario.getmAuth().createUserWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
@@ -88,25 +89,29 @@ public class RegisterFragment extends Fragment {
                     map.put("name", email.getText().toString());
                     map.put("email", email.getText().toString());
                     map.put("password", pass.getText().toString());
+                    String id =  Usuario.getmAuth().getCurrentUser().getUid();
 
-                    String id = mAuth.getCurrentUser().getUid();
-
-                    mDatabase.child("Users").child(id).setValue(map);
+                    Usuario.getmDatabase().child("Users").child(id).setValue(map);
+                    Toast.makeText(getActivity(), "Cuenta creada, por favor espere", Toast.LENGTH_SHORT).show();
                     navController.navigate(R.id.nav_home);/**Por si se autentifica correctamente llevar a fragment...*/
                 }else{
-                    System.out.println("NO SE PUDO REGISTRAR ESTE USUARIO. PROBLEMAS CON EL SERVIDOR");
+                    Toast.makeText(getActivity(), "No puede usar ese correo", Toast.LENGTH_SHORT ).show();
                 }
             }
         });
     }
 
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
+    private void emptyStack(){
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
     }
+    private void hideVirtualKeyboard(){
+        InputMethodManager inputManager =(InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+
 
 }
