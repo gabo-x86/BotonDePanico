@@ -1,16 +1,19 @@
 package com.projects.botondepanico.ui.auth;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -61,6 +64,7 @@ public class LogInFragment extends Fragment {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideVirtualKeyboard();
                 navController.popBackStack();
                 logInControl(navController);/**To logIn verification**/
                 //navController.navigate(R.id.nav_home);/**Programar evento**/
@@ -106,5 +110,9 @@ public class LogInFragment extends Fragment {
 
             }
         });
+    }
+    private void hideVirtualKeyboard(){
+        InputMethodManager inputManager =(InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

@@ -35,6 +35,7 @@ import static androidx.core.content.ContextCompat.getSystemService;
 
 public class RegisterFragment extends Fragment {
 
+    private EditText user;
     private EditText email;
     private EditText pass;
     private EditText passConfirmation;
@@ -50,6 +51,7 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        user = view.findViewById(R.id.txtBoxRegisterName);
         email = view.findViewById(R.id.txtBoxRegisterEmail);
         pass = view.findViewById(R.id.txtBoxRegisterPass);
         passConfirmation = view.findViewById(R.id.txtBoxRegisterConfirmation);
@@ -81,24 +83,28 @@ public class RegisterFragment extends Fragment {
 
 
     private void userRegister(final NavController navController){
-        Usuario.getmAuth().createUserWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("name", email.getText().toString());
-                    map.put("email", email.getText().toString());
-                    map.put("password", pass.getText().toString());
-                    String id =  Usuario.getmAuth().getCurrentUser().getUid();
+        if(pass.getText().toString().equals(passConfirmation.getText().toString())) {
+            Usuario.getmAuth().createUserWithEmailAndPassword(email.getText().toString(), pass.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("name", user.getText().toString());
+                        map.put("email", email.getText().toString());
+                        map.put("password", pass.getText().toString());
+                        String id = Usuario.getmAuth().getCurrentUser().getUid();
 
-                    Usuario.getmDatabase().child("Users").child(id).setValue(map);
-                    Toast.makeText(getActivity(), "Cuenta creada, por favor espere", Toast.LENGTH_SHORT).show();
-                    navController.navigate(R.id.nav_home);/**Por si se autentifica correctamente llevar a fragment...*/
-                }else{
-                    Toast.makeText(getActivity(), "No puede usar ese correo", Toast.LENGTH_SHORT ).show();
+                        Usuario.getmDatabase().child("Users").child(id).setValue(map);
+                        Toast.makeText(getActivity(), "Cuenta creada, por favor espere", Toast.LENGTH_SHORT).show();
+                        navController.navigate(R.id.nav_home);/**Por si se autentifica correctamente llevar a fragment...*/
+                    } else {
+                        Toast.makeText(getActivity(), "No puede usar ese correo", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        }else{
+            Toast.makeText(getActivity(), "Ambas contraseñas deben ser iguales", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void emptyStack(){
