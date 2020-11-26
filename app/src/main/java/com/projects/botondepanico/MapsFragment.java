@@ -140,7 +140,7 @@ public class MapsFragment extends Fragment {
                 }*/
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()) {//ESTE FOR RECORRE TODOS LOS HIJOS DE USERS
                     if(snapshot.child(dataSnapshot.getKey()).child("connectedState").getValue().toString().equals("true")/* && snapshot.child(dataSnapshot.getKey()).child("helpState").getValue().toString().equals("true")*/){
-                        System.out.println("SE COLOCAN MARCAS");
+                        System.out.println("AQUI SE COLOCAN MARCAS");
                         /**TODO: AQUI SE DIBUJAN MARCAS**/
                         //double lat = (double) snapshot.child(dataSnapshot.getKey()).child("lat").getValue();
                         //double lon = (double) snapshot.child(dataSnapshot.getKey()).child("lon").getValue();

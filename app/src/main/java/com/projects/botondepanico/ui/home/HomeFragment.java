@@ -33,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.projects.botondepanico.AlertFragment;
 import com.projects.botondepanico.MapsFragment;
 import com.projects.botondepanico.R;
+import com.projects.botondepanico.Usuario;
 
 import static android.content.Context.SENSOR_SERVICE;
 
@@ -146,8 +147,13 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getActivity(), "SOS", Toast.LENGTH_SHORT).show();
+                helpStateChange("true");
             }
         });
+    }
+
+    private void helpStateChange(String state){
+        Usuario.getmDatabase().child("Users").child(Usuario.getId()).child("helpState").setValue(state);
     }
 
 
