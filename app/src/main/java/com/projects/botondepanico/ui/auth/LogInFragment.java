@@ -101,7 +101,7 @@ public class LogInFragment extends Fragment {
                     // Sign in success, update UI with the signed-in user's information
                     Toast.makeText(getActivity(), "Ingreso exitoso", Toast.LENGTH_SHORT).show();
                     FirebaseUser user = Usuario.getmAuth().getCurrentUser();
-                    //syncDataUser();
+                    Usuario.updateConectedState(user.getUid());
                     navController.navigate(R.id.nav_home);
                 } else {
                     // If sign in fails, display a message to the user.
@@ -115,4 +115,5 @@ public class LogInFragment extends Fragment {
         InputMethodManager inputManager =(InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
     }
+
 }

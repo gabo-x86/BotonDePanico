@@ -10,23 +10,22 @@ import com.google.firebase.database.FirebaseDatabase;
 public class Usuario {
     private static FirebaseAuth mAuth;
     private static DatabaseReference mDatabase;
-    private static String nickName;
-    private static String mail;
+    private static String id;
+    private static double lat;
+    /*private static String mail;
+    private static String[] contact1;
     private static String pass;
     private static double lat;
-    private static double lon;
+    private static double lon;*/
 
     public Usuario() {/**Iniciar BD**/
         mAuth = FirebaseAuth.getInstance();/**Incializa instancia de autentificación de la BD*/
         mDatabase = FirebaseDatabase.getInstance().getReference();/**Inicializa instancia de la BD*/
+        id="";
     }
 
-    public Usuario(String nickName, String mail, String pass, double lat, double lon) {/**Crea objeto**/
-        this.nickName = nickName;
-        this.mail = mail;
-        this.pass = pass;
-        this.lat = lat;
-        this.lon = lon;
+    public Usuario(String id) {/**Crea objeto**/
+        this.id=id;
     }
 
     public static FirebaseAuth getmAuth() {
@@ -37,29 +36,22 @@ public class Usuario {
         return mDatabase;
     }
 
-    public String getNickName() {
-        return nickName;
+    public static String getId() {
+        return id;
     }
 
-    public String getMail() {
-        return mail;
+    public static void setId(String id) {
+        Usuario.id = id;
     }
 
-    public double getLat() {
-        return lat;
+    public static void updateConectedState(String user){
+        new Usuario(user);
+        mDatabase.child("Users").child(Usuario.getId()).child("connectedState").setValue("true");
     }
 
-    public double getLon() {
-        return lon;
-    }
-
-    /**setters**/
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
-
-    public void setLon(double lon) {
-        this.lon = lon;
+    public static void updateDisconecteddState(String user){
+        new Usuario(user);
+        mDatabase.child("Users").child(Usuario.getId()).child("connectedState").setValue("false");
     }
 
 }

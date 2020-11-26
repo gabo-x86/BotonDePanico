@@ -94,9 +94,22 @@ public class RegisterFragment extends Fragment {
                         map.put("name", user.getText().toString());
                         map.put("email", email.getText().toString());
                         map.put("password", pass.getText().toString());
-                        String id = Usuario.getmAuth().getCurrentUser().getUid();
+                        map.put("contact1Name", "");
+                        map.put("contact2Name", "");
+                        map.put("contact3Name", "");
+                        map.put("contact1Number", "");
+                        map.put("contact2Number", "");
+                        map.put("contact3Number", "");
+                        map.put("message", "Ayuda estoy en peligro");
+                        map.put("lat", "0");
+                        map.put("lon", "0");
+                        map.put("connectedState", "false");
+                        map.put("helpState", "false");
 
+                        String id = Usuario.getmAuth().getCurrentUser().getUid();
                         Usuario.getmDatabase().child("Users").child(id).setValue(map);
+
+                        Usuario.updateConectedState(id);
                         Toast.makeText(getActivity(), "Cuenta creada, por favor espere", Toast.LENGTH_SHORT).show();
                         navController.popBackStack();
                         navController.navigate(R.id.nav_home);/**Por si se autentifica correctamente llevar a fragment...*/
@@ -120,7 +133,6 @@ public class RegisterFragment extends Fragment {
         InputMethodManager inputManager =(InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
     }
-
 
 
 }

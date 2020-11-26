@@ -81,4 +81,10 @@ public class MainActivity extends AppCompatActivity {
         }.start();
 
     }
+
+    @Override
+    protected void onPause() {
+        Usuario.updateDisconecteddState(Usuario.getId());
+        super.onPause();
+    }
 }

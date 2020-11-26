@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,6 +26,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 public class MapsFragment extends Fragment {
 
@@ -67,6 +71,7 @@ public class MapsFragment extends Fragment {
                             .tilt(45)
                             .build();
                     mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    updatePosition(miUbicacion.latitude, miUbicacion.longitude);
 
                 }
 
@@ -96,6 +101,7 @@ public class MapsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        hearPositions();
         return inflater.inflate(R.layout.fragment_maps, container, false);
     }
 
@@ -122,5 +128,38 @@ public class MapsFragment extends Fragment {
                 ActivityCompat.requestPermissions((Activity) getContext(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
         }
+    }
+
+
+    private void hearPositions(){
+        Usuario.getmDatabase().child("Users").addValueEventListener(new ValueEventListener() {//GABRIEL ACA ESCUCHA AL HIJO UBICACION PARA OBTENER SUS HIJOS
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {//ESTE ES EL METODO DONDE OCURRE TODA LA OBTENCION DE LOS DATOS
+                /*for(Marker marker:realTimeMarkers){
+                    marker.remove();
+                }*/
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()) {//ESTE FOR RECORRE TODOS LOS HIJOS DE USERS
+                    if(snapshot.child(dataSnapshot.getKey()).child("connectedState").getValue().toString().equals("true")/* && snapshot.child(dataSnapshot.getKey()).child("helpState").getValue().toString().equals("true")*/){
+                        System.out.println("SE COLOCAN MARCAS");
+                        /**TODO: AQUI SE DIBUJAN MARCAS**/
+                        //double lat = (double) snapshot.child(dataSnapshot.getKey()).child("lat").getValue();
+                        //double lon = (double) snapshot.child(dataSnapshot.getKey()).child("lon").getValue();
+                        //MarkerOptions markerOptions = new MarkerOptions();
+                        //markerOptions.position(new LatLng(lat,lon));
+                        //**tmpRealTimeMarker.add(mMap.addMarker(markerOptions));????**/
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void updatePosition(double latitude,  double longitude){
+        Usuario.getmDatabase().child("Users").child(Usuario.getId()).child("lat").setValue(latitude);
+        Usuario.getmDatabase().child("Users").child(Usuario.getId()).child("lon").setValue(longitude);
     }
 }

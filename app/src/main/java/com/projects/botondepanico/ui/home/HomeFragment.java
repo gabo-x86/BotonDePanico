@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,12 +24,17 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.projects.botondepanico.AlertFragment;
 import com.projects.botondepanico.MapsFragment;
 import com.projects.botondepanico.R;
 
 import static android.content.Context.SENSOR_SERVICE;
-import static androidx.core.content.ContextCompat.getSystemService;
 
 public class HomeFragment extends Fragment {
 
@@ -43,28 +49,33 @@ public class HomeFragment extends Fragment {
     private FragmentTransaction transaction;
     int eventCount = 0;
 
+    private Button btnSOS;
+    //private View vista;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        //final TextView textView = root.findViewById(R.id.text_home);
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 //textView.setText(s);
             }
         });
+
+
         sensorInitialize();
         alertFragment = new AlertFragment();
+        sosButtonEvent(root);
+
         return root;
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         maps = new MapsFragment();
-
     }
 
 
@@ -101,7 +112,6 @@ public class HomeFragment extends Fragment {
                 float z = sensorEvent.values[2];
                 start();
 
-
                 if(((x>=10 || x<=-10) || (y>=10 || y<=-10) || (z>=10 || z<=-10)) && eventCount==0){
                     eventCount++;
                 }else if((x<=1 || y<=1 || z<=1) && eventCount==1){
@@ -130,6 +140,15 @@ public class HomeFragment extends Fragment {
         sensorManager.unregisterListener(sensorEventListener);
     }
 
+    private void sosButtonEvent(View root){
+        btnSOS = root.findViewById(R.id.button);
+        btnSOS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "SOS", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 
 }
