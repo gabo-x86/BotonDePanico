@@ -1,5 +1,6 @@
 package com.projects.botondepanico.ui.auth;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -7,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -59,11 +61,11 @@ public class RegisterFragment extends Fragment {
         final NavController navController = Navigation.findNavController(view);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View view) {
-                emptyStack();
+                //emptyStack();
                 hideVirtualKeyboard();
                 registerControl(navController);
+
             }
         });
     }
@@ -96,6 +98,7 @@ public class RegisterFragment extends Fragment {
 
                         Usuario.getmDatabase().child("Users").child(id).setValue(map);
                         Toast.makeText(getActivity(), "Cuenta creada, por favor espere", Toast.LENGTH_SHORT).show();
+                        navController.popBackStack();
                         navController.navigate(R.id.nav_home);/**Por si se autentifica correctamente llevar a fragment...*/
                     } else {
                         Toast.makeText(getActivity(), "No puede usar ese correo", Toast.LENGTH_SHORT).show();

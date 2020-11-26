@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -17,7 +18,7 @@ import android.widget.TextView;
 
 public class AlertFragment extends Fragment {
 
-
+    private FragmentTransaction transaction;
 
     public AlertFragment() {
         // Required empty public constructor
@@ -26,7 +27,6 @@ public class AlertFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_alert, container, false);
     }
 
@@ -43,7 +43,7 @@ public class AlertFragment extends Fragment {
 
         final NavController navController = Navigation.findNavController(view);
 
-        counterInitialize(view, (short)10, navController);
+        counterInitialize(view, (short)31, navController);
 
 
         /**sos.setOnClickListener(new View.OnClickListener() {EVENTO DE SOS
@@ -55,7 +55,8 @@ public class AlertFragment extends Fragment {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navController.popBackStack();
+                onPause();
+                //navController.popBackStack();
                 navController.navigate(R.id.nav_home);
             }
         });
@@ -71,9 +72,13 @@ public class AlertFragment extends Fragment {
             }
 
             public void onFinish() {
-                /**EVENTO DE SOS**/
+                textView.setText("0");
+            /**EVENTO DE SOS**/
             }
         }.start();
     }
+
+
+
 
 }

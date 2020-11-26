@@ -40,7 +40,7 @@ public class HomeFragment extends Fragment {
     private SensorEventListener sensorEventListener;
 
     private AlertFragment alertFragment;
-    FragmentTransaction transaction;
+    private FragmentTransaction transaction;
     int eventCount = 0;
 
 
@@ -76,11 +76,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         start();
-        super.onResume();
         getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, maps).commit();
+        super.onResume();
+
     }
 
     private void sensorInitialize() {
+
         sensorManager = (SensorManager)getActivity().getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         transaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -97,6 +99,7 @@ public class HomeFragment extends Fragment {
                 float x = sensorEvent.values[0];
                 float y = sensorEvent.values[1];
                 float z = sensorEvent.values[2];
+                start();
 
 
                 if(((x>=10 || x<=-10) || (y>=10 || y<=-10) || (z>=10 || z<=-10)) && eventCount==0){
@@ -107,7 +110,6 @@ public class HomeFragment extends Fragment {
 
                 if(eventCount==2){
                     transaction.replace(R.id.nav_host_fragment, alertFragment).commit();
-                    transaction.addToBackStack(null);
                     stop();
                     eventCount=0;
                 }

@@ -1,7 +1,9 @@
 package com.projects.botondepanico;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -56,5 +58,27 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    int counter=0;
+    @Override
+    public void onBackPressed() {
+        if(counter==0){
+            Toast.makeText(this, "Presione otra vez para salir", Toast.LENGTH_SHORT).show();
+            counter++;
+            super.onBackPressed();
+        }else{
+            finish();
+        }
+
+        new CountDownTimer(2000,1000) {
+            public void onTick(long millisUntilFinished) {
+            }
+
+            public void onFinish() {
+                counter = 0;
+            }
+        }.start();
+
     }
 }
